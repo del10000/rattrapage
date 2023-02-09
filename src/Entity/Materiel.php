@@ -69,7 +69,7 @@ class Materiel
         return $this->en_stock;
     }
 
-    public function setEnStock(int $en_stock): self
+    public function setEnStock(?int $en_stock): self
     {
         $this->en_stock = $en_stock;
 
@@ -116,5 +116,10 @@ class Materiel
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->nom;
     }
 }

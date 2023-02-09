@@ -13,10 +13,9 @@ class MaterielType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('nombre_total')
-            ->add('en_stock')
-            ->add('en_pret')
-        ;
+            ->add('nombre_total');
+        // ->add('en_stock')
+        // ->add('en_pret');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

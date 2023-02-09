@@ -27,6 +27,8 @@ class MaterielController extends AbstractController
         $materiel = new Materiel();
         $form = $this->createForm(MaterielType::class, $materiel);
         $form->handleRequest($request);
+        $materiel->setEnStock($materiel->getNombreTotal());
+        $materiel->setEnPret(0);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $materielRepository->save($materiel, true);
@@ -69,7 +71,7 @@ class MaterielController extends AbstractController
     #[Route('/{id}', name: 'app_materiel_delete', methods: ['POST'])]
     public function delete(Request $request, Materiel $materiel, MaterielRepository $materielRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$materiel->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $materiel->getId(), $request->request->get('_token'))) {
             $materielRepository->remove($materiel, true);
         }
 

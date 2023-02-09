@@ -1,42 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Pret{% endblock %}
+{% block title %}Pret
+{% endblock %}
 
 {% block body %}
-    <h1>Pret</h1>
+	<h1>Pret</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ pret.id }}</td>
-            </tr>
-            <tr>
-                <th>User_name</th>
-                <td>{{ pret.userName }}</td>
-            </tr>
-            <tr>
-                <th>User_mail</th>
-                <td>{{ pret.userMail }}</td>
-            </tr>
-            <tr>
-                <th>Date_pret</th>
-                <td>{{ pret.datePret ? pret.datePret|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Date_rendu</th>
-                <td>{{ pret.dateRendu ? pret.dateRendu|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ pret.status ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ pret.id }}</td>
+			</tr>
+			<tr>
+				<th>User_name</th>
+				<td>{{ pret.userName }}</td>
+			</tr>
+			<tr>
+				<th>Date_pret</th>
+				<td>{{ pret.datePret ? pret.datePret|date('Y-m-d') : '' }}</td>
+			</tr>
+			<tr>
+				<th>Date_rendu</th>
+				<td>{{ pret.dateRendu ? pret.dateRendu|date('Y-m-d') : '' }}</td>
+			</tr>
+			<tr>
+				<th>En pret</th>
+				{% if pret.status == false %}
+					<td>Non</td>
+				{% else %}
+					<td>Oui</td>
+				{% endif %}
+			</tr>
+		</tbody>
+	</table>
 
-    <a href="{{ path('app_pret_index') }}">back to list</a>
+	<a href="{{ path('app_pret_index') }}">back to list</a>
 
-    <a href="{{ path('app_pret_edit', {'id': pret.id}) }}">edit</a>
+	<a href="{{ path('app_pret_edit', {'id': pret.id}) }}">edit</a>
 
-    {{ include('pret/_delete_form.html.twig') }}
+	{{ include('pret/_delete_form.html.twig') }}
 {% endblock %}

@@ -14,11 +14,10 @@ class PretType extends AbstractType
         $builder
             ->add('user_name')
             ->add('user_mail')
-            ->add('date_pret')
-            ->add('date_rendu')
-            ->add('status')
-            ->add('materiel')
-        ;
+            // ->add('date_pret')
+            // ->add('date_rendu')
+            // ->add('status')
+            ->add('materiel');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
