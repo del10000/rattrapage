@@ -3,19 +3,15 @@
 namespace App\Controller;
 
 
-use Symfony\Component\Mime\Email;
-use Symfony\Component\Mailer\Transport;
-use Symfony\Component\Mailer\Mailer;
 use App\Entity\Pret;
 use App\Form\PretType;
 use App\Repository\PretRepository;
+use App\Service\MailerService;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Email as ConstraintsEmail;
-use Symfony\Config\Twig\MailerConfig;
 
 #[Route('/pret')]
 class PretController extends AbstractController
@@ -29,7 +25,7 @@ class PretController extends AbstractController
     }
 
     #[Route('/new', name: 'app_pret_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PretRepository $pretRepository): Response
+    public function new(Request $request, PretRepository $pretRepository, MailerService $mailer): Response
     {
         $pret = new Pret();
         $form = $this->createForm(PretType::class, $pret);
@@ -50,6 +46,15 @@ class PretController extends AbstractController
             if ($pret->getMateriel()->getEnStock() > 0)
                 $pret->getMateriel()->setEnStock($pret->getMateriel()->getEnStock() - 1);
             $pretRepository->save($pret, true);
+
+            $emprunt = $pret->getDatePret()->format('d-m-Y');
+            $rendu = $pret->getDateRendu()->format('d-m-Y');
+            $matos = $pret->getMateriel()->getNom();
+            $destinataire = $pret->getUserMail();
+            $objet = 'Pret de matériel';
+            $message = "Confirmation de votre emprunt :<br> matériel emprunté : $matos <br> Date de pret : $emprunt <br> Date de retour :  $rendu";
+
+            $mailer->sendEmail($destinataire, $objet, $message);
 
             return $this->redirectToRoute('app_pret_index', [], Response::HTTP_SEE_OTHER);
         }
