@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pret index{% endblock %}
+
+{% block body %}
+    <h1>Pret index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>User_name</th>
+                <th>User_mail</th>
+                <th>Date_pret</th>
+                <th>Date_rendu</th>
+                <th>Status</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pret in prets %}
+            <tr>
+                <td>{{ pret.id }}</td>
+                <td>{{ pret.userName }}</td>
+                <td>{{ pret.userMail }}</td>
+                <td>{{ pret.datePret ? pret.datePret|date('Y-m-d') : '' }}</td>
+                <td>{{ pret.dateRendu ? pret.dateRendu|date('Y-m-d') : '' }}</td>
+                <td>{{ pret.status ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_pret_show', {'id': pret.id}) }}">show</a>
+                    <a href="{{ path('app_pret_edit', {'id': pret.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_pret_new') }}">Create new</a>
+{% endblock %}
